@@ -46,6 +46,9 @@ class ATMServiceTest {
         double expected = 9900.00;
         double actual = bank.checkBalance(0001);
 
+        // Verifierar att den körs en gång
+        verify(bank, times(1)).withdrawAmount(0001, expected);
+
         // Prints out results, comparing expected to actual results
         assertEquals(expected, actual);
     }
@@ -57,10 +60,15 @@ class ATMServiceTest {
 
         bank.executeLogin(0001, 1234);
 
-        bank.addAmount(0001, 1000.00);
+        double addValue = 1000.00;
+
+        bank.addAmount(0001, addValue);
 
         double expected = 11000.00;
         double actual = bank.checkBalance(0001);
+
+        // Verifierar att den körs en gång
+        verify(bank, times(1)).addAmount(0001, expected);
 
         // Prints out results, comparing expected to actual results
         assertEquals(expected, actual);
@@ -108,4 +116,32 @@ class ATMServiceTest {
             e.printStackTrace();
         }
     }
+
+    // Updatering, tillägg av testcase
+    // Printar ut två gånger, varav andra gången sker det en withdrawl före
+    @Test
+    void should_ReturnNewValue() {
+        when(bankDatabase.getAccountByID(0001)).thenReturn(acc1);
+
+        bank.withdrawAmount(0001, 100.00);
+
+        double expectedRes = 9900.00;
+        double actualRes = bank.checkBalance(0001);
+
+        // Prints out results, comparing expected to actual results
+        assertEquals(expectedRes, actualRes);
+    }
+
+    @Test
+    void should_logIn() {
+        when(bankDatabase.getAccountByID(0001)).thenReturn(acc1);
+
+        bank.executeLogin(0001, 1234);
+
+        verify(bankDatabase, times(1)).getAccountByID(0001);
+
+        // Prints out results, comparing expected to actual results
+        assertTrue(acc1.isLocked());
+    }
+
 }

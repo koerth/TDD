@@ -72,5 +72,11 @@ public class Bank {
             System.out.println("You have reaced the maximum allowed tried, your card has not been locked until further notice.");
             bankAccount.setLocked(true); // Sets account to locked if attempts succeed 3
         }
+
     }
+
+    public void updateDatabaseUser(int accountID) {
+        return accountID;
+    }
+
 }
