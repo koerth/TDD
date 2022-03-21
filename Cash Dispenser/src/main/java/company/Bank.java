@@ -75,8 +75,15 @@ public class Bank {
 
     }
 
-    public void updateDatabaseUser(int accountID) {
-        return accountID;
+    public void saveChanges(int accountID, int pin, double balance, String bank) {
+        BankAccount bankAccount = bankDatabase.getAccountByID(accountID);
+        
+        // Update values to BankAccount
+        bankAccount.setPin(pin);
+        bankAccount.setBalance(balance);
+        BankAccount.setBank(bank);
     }
 
 }
+
+

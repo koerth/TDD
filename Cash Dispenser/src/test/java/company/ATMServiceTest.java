@@ -144,4 +144,18 @@ class ATMServiceTest {
         assertTrue(acc1.isLocked());
     }
 
+    @Test
+    void should_changeValues() {
+        when(bankDatabase.getAccountByID(0001)).thenReturn(acc1);
+
+        // Nya värden
+        int newPin = 4321;
+        double newBalance = 100000.00;
+        String newBank = "TestBank";
+
+        // Kör funktionen som sätter värdet i BankAccount för accountID
+        bank.saveChanges(0001, newPin, newBalance, newBank);
+        verify(bankDatabase, times(1)).getAccountByID(0001);
+    }
+
 }
